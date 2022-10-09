@@ -2,7 +2,6 @@ package main
 
 import (
     "fmt"
-    "strings"
     "booking-app/helper"
     )
 
@@ -10,7 +9,14 @@ import (
     const conferenceTickets uint = 50
     var remainingTickets uint = 50
     var conferenceName  = "Go Conference"
-    var bookings []string
+    var bookings = make([]UserData, 0) //List of Map and Intization with size 0
+
+    type UserData struct {
+        firstName string
+        lastName string
+        email string
+        numberOfTickets uint
+    }
 
 func main() {
 
@@ -29,13 +35,13 @@ func main() {
 
         if  isValidName && isValidEmail && isValidTicket {
             
-            remainingTickets, bookings := bookTicket(remainingTickets, userTickets, bookings , firstName , lastName)
+            remainingTickets := bookTicket(remainingTickets, userTickets , firstName , lastName, email)
 
             fmt.Printf("Thanks your %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
             
             fmt.Printf("%v ticket remaining for conference %v\n", remainingTickets, conferenceName)
 
-            firstNames := getFirstName(bookings)
+            firstNames := getFirstName()
 
             fmt.Printf("The first name of booking is: %v\n", firstNames)
 
@@ -75,12 +81,12 @@ func greetUser() {
 } // End of greetUser
 
 
-func getFirstName(bookings []string) []string {
+func getFirstName() []string {
     firstNames := []string{}
 
     for _, booking := range bookings {
-        var name = strings.Fields(booking) // first name and last name into array split by array
-        firstNames = append(firstNames, name[0])
+        //var name = strings.Fields(booking) // first name and last name into array split by array
+        firstNames = append(firstNames, booking.firstName)
     }
 
     fmt.Printf("These are bookings done: %v\n", bookings)
@@ -109,14 +115,22 @@ func getUserInput() (string,string,string,uint) {
     return firstName, lastName, email, userTickets
 }
 
-func bookTicket(remainingTickets uint, userTickets uint, bookings []string, firstName string, lastName string) (uint, []string) {
+func bookTicket(remainingTickets uint, userTickets uint, firstName string, lastName string, email string) (uint) {
 
     fmt.Printf("RemainingTickets: %d\n", remainingTickets)
 
     remainingTickets = remainingTickets - userTickets
-    bookings = append(bookings, firstName + " " + lastName) 
+
+    var userData = UserData{
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        numberOfTickets: userTickets,
+    }
+
+    bookings = append(bookings, userData)
     fmt.Printf("Size of the Array: %v\n", len(bookings))
     fmt.Printf("Display the Slice: %v\n", bookings)
 
-    return remainingTickets, bookings
+    return remainingTickets
 }
