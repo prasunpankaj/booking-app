@@ -35,7 +35,7 @@ func main() {
 
         if  isValidName && isValidEmail && isValidTicket {
             
-            remainingTickets := bookTicket(remainingTickets, userTickets , firstName , lastName, email)
+            bookTicket(userTickets , firstName , lastName, email)
 
             fmt.Printf("Thanks your %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
             
@@ -115,7 +115,7 @@ func getUserInput() (string,string,string,uint) {
     return firstName, lastName, email, userTickets
 }
 
-func bookTicket(remainingTickets uint, userTickets uint, firstName string, lastName string, email string) (uint) {
+func bookTicket(userTickets uint, firstName string, lastName string, email string)  {
 
     fmt.Printf("RemainingTickets: %d\n", remainingTickets)
 
@@ -131,6 +131,4 @@ func bookTicket(remainingTickets uint, userTickets uint, firstName string, lastN
     bookings = append(bookings, userData)
     fmt.Printf("Size of the Array: %v\n", len(bookings))
     fmt.Printf("Display the Slice: %v\n", bookings)
-
-    return remainingTickets
 }
