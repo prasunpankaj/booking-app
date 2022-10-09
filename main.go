@@ -36,6 +36,7 @@ func main() {
         if  isValidName && isValidEmail && isValidTicket {
             
             bookTicket(userTickets , firstName , lastName, email)
+            go helper.SendTicket(userTickets , firstName , lastName, email)
 
             fmt.Printf("Thanks your %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
             
