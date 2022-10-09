@@ -2,12 +2,12 @@ package main
 
 import (
     "fmt"
-    "strings")
+    "strings"
+    "booking-app/helper"
+    )
 
     //Package Level Variables
     const conferenceTickets uint = 50
-    const validNameLen int = 2
-    const validEmailLen = 5
     var remainingTickets uint = 50
     var conferenceName  = "Go Conference"
     var bookings []string
@@ -25,7 +25,7 @@ func main() {
         
         fmt.Println("remainingTickets is in Main %v", remainingTickets)
 
-        isValidName, isValidEmail, isValidTicket := validateUserInput(firstName, lastName, email ,userTickets, remainingTickets)
+        isValidName, isValidEmail, isValidTicket := helper.ValidateUserInput(firstName, lastName, email ,userTickets, remainingTickets)
 
         if  isValidName && isValidEmail && isValidTicket {
             
