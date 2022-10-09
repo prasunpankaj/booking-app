@@ -2,7 +2,9 @@ package main
 
 import (
     "fmt"
+    "sync"
     "booking-app/helper"
+    "time"
     )
 
     //Package Level Variables
@@ -17,6 +19,7 @@ import (
         email string
         numberOfTickets uint
     }
+var wg = sync.WaitGroup{}
 
 func main() {
 
@@ -36,7 +39,8 @@ func main() {
         if  isValidName && isValidEmail && isValidTicket {
             
             bookTicket(userTickets , firstName , lastName, email)
-            go helper.SendTicket(userTickets , firstName , lastName, email)
+            wg.Add(1)
+            go SendTicket(userTickets , firstName , lastName, email)
 
             fmt.Printf("Thanks your %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
             
@@ -73,6 +77,7 @@ func main() {
             continue
         }
     }
+    wg.Wait()
 } // End of Main function
 
 func greetUser() {
@@ -132,4 +137,14 @@ func bookTicket(userTickets uint, firstName string, lastName string, email strin
     bookings = append(bookings, userData)
     fmt.Printf("Size of the Array: %v\n", len(bookings))
     fmt.Printf("Display the Slice: %v\n", bookings)
+}
+
+
+func SendTicket(userTickets uint, firstName string, lastName string, email string){
+    time.Sleep(10 * time.Second)
+    var ticket = fmt.Sprintf("%v Ticket for %v %v\n", userTickets, firstName, lastName)
+    fmt.Println("################################")
+    fmt.Printf("Sending Ticket: \n %v  to email: %v\n", ticket, email)
+    fmt.Println("################################")
+    wg.Done()
 }
